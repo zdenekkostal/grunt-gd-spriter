@@ -1,0 +1,9 @@
+body{
+    background: #ffc url("black-20x20.png") right;
+}
+.alpha{
+    background: url("red-10x10.png") top left no-repeat;
+}
+.beta{
+    background: url("blue-10x10.png") no-repeat;
+}

@@ -1,0 +1,41 @@
+{
+    "name": "grunt-gd-spriter",
+    "description": "Create sprites from images defined in css file(s) according their position, repeat, and replace them in the css.",
+    "version": "0.1.0",
+    "homepage": "https://github.com/gooddata/grunt-gd-spriter",
+    "author": {
+        "name": "Martin Cermak",
+        "email": "martin.cermak@gooddata.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/gooddata/grunt-gd-spriter.git"
+    },
+    "bugs": {
+        "url": "https://github.com/gooddata/grunt-gd-spriter/issues"
+    },
+    "license": "Copyright (c) 2013, GoodData Corporation (BSD License)",
+    "main": "Gruntfile.js",
+    "engines": {
+        "node": ">= 0.8.0"
+    },
+    "scripts": {
+        "test": "grunt test"
+    },
+    "devDependencies": {
+        "grunt-contrib-jshint": "~0.1.1",
+        "grunt-contrib-clean": "~0.4.0",
+        "grunt-contrib-nodeunit": "~0.1.2",
+        "grunt-contrib-copy": "~0.4.0",
+        "grunt": "~0.4.1",
+
+        "node-gd": "*",
+        "binpacking": "*"
+    },
+    "peerDependencies": {
+        "grunt": "~0.4.1"
+    },
+    "keywords": [
+        "gruntplugin"
+    ]
+}

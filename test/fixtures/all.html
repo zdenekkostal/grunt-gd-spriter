@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="all.css" type="text/css" media="screen" charset="utf-8">
+        <style type="text/css" media="screen">
+            body div{
+                margin: 10px;
+                border: 1px solid black;
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .top-left, .repeat-x, .repeat-y{
+                height: 15px;
+                width: 15px;
+            }
+            .repeat-x{
+                width: 100px;
+            }
+            .repeat-y{
+                height: 250px;
+                width: 6px;
+            }
+
+            /* ignore these selectors */
+
+            .ignore{
+                width: 30px;
+                height: 30px;
+            }
+        </style>
+    </head>
+<body>
+
+    top-left:
+    <div class="top-left"> </div>
+    top-left2:
+    <div class="top-left top-left2"> </div>
+    repeat-x:
+    <div class="repeat-x"> </div>
+    <br>
+    repeat-y:
+    <div class="repeat-y repeat-y"> </div>
+    repeat-y 2:
+    <div class="repeat-y repeat-y2"> </div>
+    repeat-y 3:
+    <div class="repeat-y repeat-y3"> </div>
+
+    <hr>
+    ignored:
+    <div class="ignore ignore-center"> </div>
+    <div class="ignore ignore-positioned"> </div>
+    <div class="ignore ignore-bottom"> </div>
+    <div class="ignore ignore-comment"> </div>
+
+</body>
+</html>
