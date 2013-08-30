@@ -1,0 +1,6 @@
+.alpha{
+    background: url("../sprites/multiple-sprited_regular.png") 0 0 no-repeat;
+}
+.beta{
+    background: url("../sprites/multiple-sprited_regular.png") -10px 0 no-repeat;
+}

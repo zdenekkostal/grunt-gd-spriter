@@ -1,0 +1,9 @@
+body{
+    background: #ffc url("black-20x20.png") right;
+}
+.alpha{
+    background: url("../sprites/withOptions-sprited_regular.png") 0 0 no-repeat;
+}
+.beta{
+    background: url("../sprites/withOptions-sprited_regular.png") -12px 0 no-repeat;
+}
