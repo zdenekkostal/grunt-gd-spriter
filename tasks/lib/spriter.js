@@ -50,7 +50,7 @@ exports.init = function(grunt) {
         });
 
         var stylesheetPath = path.resolve(path.dirname(file.dest));
-        var spriteDest = path.resolve(file.spriteDest || './');
+        var spriteDest = path.resolve(opts.spriteDest || file.spriteDest || './');
 
         var options = grunt.util._.merge({
             spriteDest: spriteDest,
