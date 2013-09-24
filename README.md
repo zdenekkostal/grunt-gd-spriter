@@ -30,8 +30,8 @@ grunt.initConfig({
     },
     your_target: {
       // Target-specific file lists and/or options go here.
-    },
-  },
+    }
+  }
 })
 ```
 
@@ -60,7 +60,7 @@ grunt.initConfig({
         dest: 'styles/styles-sprited.css',
         spriteDest: 'sprites'
     }
-  },
+  }
 })
 ```
 
@@ -84,6 +84,31 @@ grunt.initConfig({
         spriteDest: 'images/sprites'
     }
   },
+})
+```
+
+#### Sprite all files in folder
+
+See ["Building the files object dynamically"](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for more information.
+
+```js
+grunt.initConfig({
+  spriter: {
+      options: {
+          spriteDest: 'dist/images/sprites'
+      },
+      all: {
+          files: [
+              {
+                  expand: true,        // Enable dynamic expansion.
+                  cwd: 'src/styles',   // Src matches are relative to this path.
+                  src: ['*.css'],      // Actual pattern(s) to match.
+                  dest: 'dist/styles', // Destination path prefix.
+                  ext: '.sprited.css'  // Dest filepaths will have this extension.
+              }
+          ]
+      }
+  }
 })
 ```
 
