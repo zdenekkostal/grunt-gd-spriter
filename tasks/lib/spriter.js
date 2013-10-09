@@ -191,10 +191,18 @@ exports.init = function(grunt) {
             maxX = Math.max(maxX, (item.fit.x + item.w));
         });
 
-        var _markup = '<html><body style="background: white;">'+spriteName+'<h2 id="selected" style="position: absolute; top: 0px; left: 600px;"></h2><div style="position: relative; top: 40px; left: 20px;"><script>showImg = function (src, top) { var x = document.getElementById("selected"); x.innerHTML = src; x.style.top = top+"px";}</script>';
+        if (groupName === "x") maxX -= opts.spaceHorizontal;
+        if (groupName === "y") maxY -= opts.spaceVertical;
+
+        var _markup = '<html><body style="background: white;"><h1>'+spriteName+'</h1>'+maxX+'x'+maxY+'<h2 id="selected" style="position: absolute; top: 0px; left: 600px;"></h2><div style="position: relative; top: 40px; left: 20px;"><script>showImg = function (src, top) { var x = document.getElementById("selected"); x.innerHTML = src; x.style.top = top+"px";}</script>';
+
+        var _imagesInfo = '<table border=1 cellspacing=0 cellpadding=3 style="float: right">';
 
         _addImage = function (img) {
             _markup += '<img src="'+target.stylesDir+'/'+img.data.image+'" style="position: absolute; left: '+img.fit.x+'; top: '+img.fit.y+'; border: 1px solid red;" title="'+img.data.image+'" onclick="showImg(\''+img.data.image+'\', '+img.fit.y+');">';
+
+            _imagesInfo += '<tr><td>' + img.data.image + '</td>' +
+            '<td>' + img.data.width + '</td><td>' + img.data.height + '</td></tr>';
         };
 
         // create sprite
@@ -221,7 +229,7 @@ exports.init = function(grunt) {
             }
         });
 
-        _markup += "</div></body></html>";
+        _markup += "</div>" + _imagesInfo + "</table></body></html>";
 
         if (grunt.option('debug')) grunt.file.write('_sprite_' + spriteName + '.html', _markup);
 
@@ -263,6 +271,12 @@ exports.init = function(grunt) {
     };
 
     var markImage = function (item, cb) {
+
+        var isIgnored = grunt.util._.contains(target.options.noSprite, item.image);
+        if ( isIgnored ) {
+            item.skip = true;
+        }
+
         // skip the no sprites
         if (item.comment && item.comment.match('no sprite')) {
             item.skip = true;

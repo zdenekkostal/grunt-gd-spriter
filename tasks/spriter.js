@@ -43,8 +43,17 @@ module.exports = function(grunt) {
         }, this);
 
         // Iterate over all src-dest file pairs.
-        this.files.forEach(function(f) {
-            spriter.processFile(f, options, done);
+        var tasks = this.files.map(function(f) {
+            return function () {
+                var callback = arguments[0];
+                spriter.processFile(f, options, callback);
+            };
         });
+
+        grunt.util.async.series(tasks,
+            function(err, results){
+                done(!err);
+            }
+        );
     });
 };

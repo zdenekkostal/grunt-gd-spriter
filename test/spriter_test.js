@@ -1,6 +1,7 @@
 'use strict';
 
 var grunt = require('grunt');
+var gd    = require('node-gd');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -27,7 +28,8 @@ exports.spriter = {
     // setup here if necessary
     done();
   },
-  default: function(test) {
+
+  basic: function(test) {
     test.expect(1);
 
     var actual = grunt.file.read('tmp/styles/all-sprited.css');
@@ -36,6 +38,7 @@ exports.spriter = {
 
     test.done();
   },
+
   multiple: function(test) {
     test.expect(1);
 
@@ -45,6 +48,7 @@ exports.spriter = {
 
     test.done();
   },
+
   with_options: function(test) {
     test.expect(1);
 
@@ -53,5 +57,25 @@ exports.spriter = {
     test.equal(actual, expected, 'sprited with_options target');
 
     test.done();
+  },
+
+  ySpriteSize: function(test) {
+    test.expect(2);
+
+    gd.openPng('tmp/sprites/repeat-sprited_y.png', function(err, imageData) {
+        test.equal(33, imageData.width, 'y sprite width');
+        test.equal(200, imageData.height, 'y sprite height');
+        test.done();
+    });
+  },
+
+  xSpriteSize: function(test) {
+    test.expect(2);
+
+    gd.openPng('tmp/sprites/repeat-sprited_x.png', function(err, imageData) {
+        test.equal(10, imageData.width, 'x sprite width');
+        test.equal(30, imageData.height, 'x sprite height');
+        test.done();
+    });
   }
 };

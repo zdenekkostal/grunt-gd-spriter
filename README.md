@@ -3,7 +3,7 @@
 >Create sprites from css images according their position, repeating, and replace them in the css.
 
 ## Getting Started
-This plugin requires Grunt `~0.4.1`
+This plugin requires Grunt `~0.4.1` and gd library. See [node-gd readme](https://npmjs.org/package/node-gd#readme) for more info.
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -48,6 +48,12 @@ Type: `Number`
 Default value: `0`
 
 Space between images in sprite (in `px`)
+
+#### options.noSprite
+Type: `Array`
+Default value: `[]`
+
+Array of images that should not be sprited.
 
 ### Usage Examples
 
@@ -95,7 +101,10 @@ See ["Building the files object dynamically"](http://gruntjs.com/configuring-tas
 grunt.initConfig({
   spriter: {
       options: {
-          spriteDest: 'dist/images/sprites'
+          spriteDest: 'dist/images/sprites',
+          noSprite: [
+              '../images/bigImage.png'
+          ]
       },
       all: {
           files: [
