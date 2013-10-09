@@ -1,0 +1,15 @@
+.repeat-x{
+    background: #fff url("green-10x10.png") repeat-x;
+}
+.repeat-x2{
+    background: red url("blue-10x10.png") repeat-x;
+}
+.repeat-y{
+    background: url("pink-6x50.png") repeat-y;
+}
+.repeat-y2{
+    background: url("green-6x100.png") repeat-y;
+}
+.repeat-y3{
+    background: url("blue-6x200.png") repeat-y;
+}
