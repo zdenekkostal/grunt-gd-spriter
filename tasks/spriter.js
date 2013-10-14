@@ -9,11 +9,11 @@
 'use strict';
 
 module.exports = function(grunt) {
-    var spriter = require('./lib/spriter').init(grunt);
     var taskName = 'spriter';
 
     grunt.registerMultiTask(taskName, 'Create sprites from css images according their position, repeat, and replace them in the css.', function() {
         var done = this.async();
+        var spriter = require('./lib/spriter').init(grunt);
 
         // merge options
         var defaultOptions = {
