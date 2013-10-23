@@ -217,7 +217,6 @@ exports.init = function(grunt) {
                 png = gd.createFromPng(target.stylesDir + '/' + i.data.image);
 
                 png.copy(sprite, fit.x, fit.y, 0, 0, png.width, png.height);
-                png.destroy();
 
                 target.images[i.data.image] = i;
 
@@ -248,8 +247,6 @@ exports.init = function(grunt) {
         var finalSprite = createSprite(maxX,maxY);
         sprite.copy(finalSprite, 0, 0, 0, 0, maxX, maxY);
         finalSprite.savePng(opts.spriteDest + '/' + spriteName);
-        finalSprite.destroy();
-        sprite.destroy();
 
         cb();
     };
