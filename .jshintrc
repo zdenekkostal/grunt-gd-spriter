@@ -1,0 +1,8 @@
+{
+    "globalstrict": true,
+    "globals": {
+        "require": true,
+        "module": true,
+        "exports": true
+    }
+}
