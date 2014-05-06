@@ -59,6 +59,16 @@ exports.spriter = {
     test.done();
   },
 
+  with_version: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/styles/version-sprited.css');
+    var expected = grunt.file.read('test/expected/version-sprited.css');
+    test.equal(actual, expected, 'sprited with_version target');
+
+    test.done();
+  },
+
   ySpriteSize: function(test) {
     test.expect(2);
 

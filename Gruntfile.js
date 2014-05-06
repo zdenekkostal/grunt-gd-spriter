@@ -68,6 +68,15 @@ module.exports = function(grunt) {
                 src: 'tmp/fixtures/repeat.css',
                 dest: 'tmp/styles/repeat-sprited.css',
                 spriteDest: 'tmp/sprites'
+            },
+
+            version: {
+                options: {
+                    version: 'xxx',
+                },
+                src: 'tmp/fixtures/version.css',
+                dest: 'tmp/styles/version-sprited.css',
+                spriteDest: 'tmp/sprites'
             }
         },
 

@@ -132,9 +132,10 @@ exports.init = function(grunt) {
     var makeSprite = function(groupName, cb) {
         var images = target.bgGroups[groupName],
             opts = target.options,
+            version = opts.version ? '_' + opts.version : '',
             items = [];
 
-        var spriteName = opts.spriteBaseName + '_'+ groupName +'.png';
+        var spriteName = opts.spriteBaseName + version + '_' + groupName + '.png';
 
         for (var i = 0; i < images.length; i++) {
             var img = images[i];
