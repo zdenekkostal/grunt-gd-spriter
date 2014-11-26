@@ -23,7 +23,7 @@
         "test": "grunt test"
     },
     "dependencies": {
-        "node-gd": "git://github.com/mikesmullin/node-gd.git#402525ad",
+        "node-gd": "*",
         "binpacking": "*"
     },
     "devDependencies": {
