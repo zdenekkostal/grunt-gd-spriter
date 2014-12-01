@@ -1,8 +1,20 @@
+/*
+ * grunt-gd-spriter
+ * https://github.com/gooddata/grunt-gd-spriter
+ *
+ * Copyright (c) 2013 GoodData Corporation
+ * Licensed under the BSD license.
+ */
+
+'use strict';
+
 var fs     = require('fs');
 var path   = require('path');
 var gd     = require('node-gd');
 
 exports.init = function(grunt) {
+
+    var _log;
 
     var packers = {
         'regular': {
@@ -93,7 +105,7 @@ exports.init = function(grunt) {
         var newContent = origContent.replace(reBg, function (match, color, image, align, comment) {
             if (imgs[image]){
                 var i = imgs[image],
-                fit = i.fit;
+                    fit = i.fit;
 
                 var background = 'background:';
 
@@ -147,7 +159,7 @@ exports.init = function(grunt) {
                     'data': img
                 });
             }
-        };
+        }
 
         // nothing to sprite
         if (!items.length) {
@@ -163,9 +175,9 @@ exports.init = function(grunt) {
 
         // create packer
         var packer = packers[groupName],
-            clazz = packer.spriter;
+            Clazz = packer.spriter;
 
-        var sprtr = new clazz(packer.spriteWidth, packer.spriteHeight);
+        var sprtr = new Clazz(packer.spriteWidth, packer.spriteHeight);
         sprtr.fit(items);
 
         // Find the most negative x and y
@@ -199,7 +211,7 @@ exports.init = function(grunt) {
 
         var _imagesInfo = '<table border=1 cellspacing=0 cellpadding=3 style="float: right">';
 
-        _addImage = function (img) {
+        var _addImage = function (img) {
             _markup += '<img src="'+target.stylesDir+'/'+img.data.image+'" style="position: absolute; left: '+img.fit.x+'; top: '+img.fit.y+'; border: 1px solid red;" title="'+img.data.image+'" onclick="showImg(\''+img.data.image+'\', '+img.fit.y+');">';
 
             _imagesInfo += '<tr><td>' + img.data.image + '</td>' +
@@ -212,7 +224,7 @@ exports.init = function(grunt) {
         var png;
         items.forEach(function(i, c) {
             if( i.fit ){
-                fit = i.fit;
+                var fit = i.fit;
                 i.sprite = opts.spritePath + spriteName;
 
                 png = gd.createFromPng(target.stylesDir + '/' + i.data.image);
@@ -223,8 +235,8 @@ exports.init = function(grunt) {
 
                 _addImage(i);
             }else{
-                var errorMsg = 'Image "' + i.data.image + '" does not fit into sprite.'
-                + 'You will probably need to increase sprite size.';
+                var errorMsg = 'Image "' + i.data.image + '" does not fit into sprite.' +
+                'You will probably need to increase sprite size.';
                 cb({msg: errorMsg});
             }
         });
@@ -323,20 +335,20 @@ exports.init = function(grunt) {
         if (item.align.match('repeat-x') && !item.skip) {
             item.repeat = 'x';
             item.marked = true;
-            target.bgGroups['x'].push(item);
+            target.bgGroups.x.push(item);
         }
 
         // mark repeated images (Y)
         if (item.align.match('repeat-y') && !item.skip) {
             item.repeat = 'y';
             item.marked = true;
-            target.bgGroups['y'].push(item);
+            target.bgGroups.y.push(item);
         }
 
         // group regular
         if (!item.marked && !item.skip) {
             item.marked = true;
-            target.bgGroups['regular'].push(item);
+            target.bgGroups.regular.push(item);
         }
 
         cb();

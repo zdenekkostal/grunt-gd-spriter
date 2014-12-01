@@ -14,18 +14,19 @@ module.exports = function(grunt) {
     grunt.initConfig({
         jshint: {
             all: [
-            'Gruntfile.js',
-            'tasks/*.js',
-            '<%= nodeunit.tests %>',
+                'Gruntfile.js',
+                'tasks/*.js',
+                'tasks/**/*.js',
+                '<%= nodeunit.tests %>'
             ],
             options: {
-                jshintrc: '.jshintrc',
-            },
+                jshintrc: '.jshintrc'
+            }
         },
 
         // Before generating any new files, remove any previously-created files.
         clean: {
-            tests: ['tmp'],
+            tests: ['tmp']
         },
 
         copy: {
@@ -72,7 +73,7 @@ module.exports = function(grunt) {
 
             version: {
                 options: {
-                    version: 'xxx',
+                    version: 'xxx'
                 },
                 src: 'tmp/fixtures/version.css',
                 dest: 'tmp/styles/version-sprited.css',
@@ -82,9 +83,8 @@ module.exports = function(grunt) {
 
         // Unit tests.
         nodeunit: {
-            tests: ['test/*_test.js'],
-        },
-
+            tests: ['test/*_test.js']
+        }
     });
 
     // Actually load this plugin's task(s).
