@@ -16,10 +16,7 @@ module.exports = function(grunt) {
         var spriter = require('./lib/spriter').init(grunt);
 
         // merge options
-        var defaultOptions = {
-            spaceVertical: 0,
-            spaceHorizontal: 0
-        };
+        var defaultOptions = spriter.defaultOptions;
 
         var taskOpts   = grunt.config([taskName, 'options']) || defaultOptions;
         var targetOpts = grunt.config([taskName, this.target, 'options']) || defaultOptions;

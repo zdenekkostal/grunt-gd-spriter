@@ -24,11 +24,23 @@
     background: url("image.png") top center no-repeat;
 }
 .ignore-positioned{
-    background: url("image.png") left -14px no-repeat;
+    background: url("image2.png") left -14px no-repeat;
 }
 .ignore-bottom{
-    background: url("image.png") bottom left no-repeat;
+    background: url("image3.png") bottom left no-repeat;
 }
 .ignore-comment{
-    background: url("image.png"); /* no sprite */
+    background: url("image4.png"); /* no sprite */
+}
+.ignore-embedded{
+    background: url(data:image/png;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7);
+}
+.ignore-image{
+    background: url('image5.png');
+}
+.ignore-repeat-right{
+    background: url('image6.png') right repeat-x;
+}
+.ignore-gif{
+    background: url('image.gif');
 }

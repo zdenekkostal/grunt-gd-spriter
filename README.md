@@ -49,11 +49,17 @@ Default value: `0`
 
 Space between images in sprite (in `px`)
 
-#### options.noSprite
+#### options.skip
 Type: `Array`
 Default value: `[]`
 
 Array of images that should not be sprited.
+
+#### options.version
+Type: `String`
+Default value: ``
+
+Version string which will be added to the sprite file name.
 
 ### Usage Examples
 
@@ -77,7 +83,8 @@ grunt.initConfig({
   spriter: {
     options: {
         spaceVertical: 2,
-        spaceHorizontal: 2
+        spaceHorizontal: 2,
+        version: '43a2e0'
     },
     all: {
         src: 'styles/styles.css',
@@ -102,7 +109,7 @@ grunt.initConfig({
   spriter: {
       options: {
           spriteDest: 'dist/images/sprites',
-          noSprite: [
+          skip: [
               '../images/bigImage.png'
           ]
       },

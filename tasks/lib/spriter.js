@@ -41,7 +41,7 @@ exports.init = function(grunt) {
     var processFile = function (file, opts, done) {
         var fileContent;
 
-        if (file.src.length > 1) {
+        if (file.src.map) {
             fileContent = file.src.map(function(filepath) {
                 // Read file source.
                 return grunt.file.read(filepath);
@@ -76,7 +76,7 @@ exports.init = function(grunt) {
             options: options,
             fileContent: fileContent,
             files: file,
-            stylesDir: path.dirname(file.src[0]),
+            stylesDir: path.dirname((file.src.map && file.src[0]) || file.src),
             bgGroups: {
                 'regular': [],
                 'x': [],
@@ -142,6 +142,7 @@ exports.init = function(grunt) {
     };
 
     var makeSprite = function(groupName, cb) {
+
         var images = target.bgGroups[groupName],
             opts = target.options,
             version = opts.version ? '_' + opts.version : '',
@@ -281,8 +282,7 @@ exports.init = function(grunt) {
     };
 
     var markImage = function (item, cb) {
-
-        var isIgnored = grunt.util._.contains(target.options.noSprite, item.image);
+        var isIgnored = grunt.util._.contains(target.options.noSprite || target.options.skip, item.image);
         if ( isIgnored ) {
             item.skip = true;
         }
@@ -316,7 +316,7 @@ exports.init = function(grunt) {
         }
 
         // skip inline images
-        if (item.image.match('data:image') && !item.skip) {
+        if (item.image.match('data:image')) {
             item.skip = true;
         }
 
@@ -370,7 +370,11 @@ exports.init = function(grunt) {
     };
 
     var exports = {
-        processFile: processFile
+        processFile: processFile,
+        defaultOptions: {
+            spaceVertical: 0,
+            spaceHorizontal: 0
+        }
     };
 
     return exports;
