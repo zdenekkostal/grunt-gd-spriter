@@ -22,6 +22,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
@@ -36,6 +37,6 @@ module.exports = function(grunt) {
     });
 
     // By default, lint and run all tests.
-    grunt.registerTask('default', ['jshint', 'test']);
+    grunt.registerTask('default', ['watch']);
 
 };

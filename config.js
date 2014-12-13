@@ -11,13 +11,25 @@
 module.exports = {
     jshint: {
         all: [
+            'config.js',
             'Gruntfile.js',
             'tasks/*.js',
             'tasks/**/*.js',
-            '<%= nodeunit.tests %>'
+            'test/*_test.js'
         ],
         options: {
             jshintrc: '.jshintrc'
+        }
+    },
+
+    watch: {
+        lib: {
+            files: ['tasks/**/*', 'test/*.js'],
+            tasks: ['jshint', 'test']
+        },
+        test: {
+            files: './*.js',
+            tasks: ['jshint']
         }
     },
 
@@ -47,7 +59,7 @@ module.exports = {
                 skip: [
                     'image5.png'
                 ]
-            },
+            }
         },
 
         multiple: {
@@ -82,6 +94,21 @@ module.exports = {
             },
             src: 'tmp/fixtures/version.css',
             dest: 'tmp/styles/version-sprited.css',
+            spriteDest: 'tmp/sprites'
+        },
+
+        customRegex: {
+            options: {
+                regEx: /background:\s*url\([\'"]?([^\'\"\)]+)["\']?\)\s*((?:no-repeat|repeat|repeat-x|repeat-y|center|top|bottom|left|right|scroll|fixed|\s+){0,9});(\s*\/\*[^*]+\*\/)?/ig
+            },
+            src: 'tmp/fixtures/regex.css',
+            dest: 'tmp/styles/regex-sprited.css',
+            spriteDest: 'tmp/sprites'
+        },
+
+        minified: {
+            src: 'tmp/fixtures/minified.css',
+            dest: 'tmp/styles/minified-sprited.css',
             spriteDest: 'tmp/sprites'
         }
     },

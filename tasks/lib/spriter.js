@@ -34,12 +34,11 @@ exports.init = function(grunt) {
         }
     };
 
-    var reBg = /background:\s*(transparent|black|red|white|#[0-9a-fA-F]{3,6})?\s*url\([\'"]?([^\'\"\)]+)["\']?\)\s*((?:no-repeat|repeat|repeat-x|repeat-y|center|top|bottom|left|right|scroll|fixed|-?[0-9]+%|0|-?[0-9]+px|\s+){0,9});(\s*\/\*[^*]+\*\/)?/ig;
-
-    var target;
+    var target, regEx;
 
     var processFile = function (file, opts, done) {
         var fileContent;
+        regEx = opts.regEx;
 
         if (file.src.map) {
             fileContent = file.src.map(function(filepath) {
@@ -51,12 +50,13 @@ exports.init = function(grunt) {
         }
 
         var matches = [],
-            x = fileContent.replace(reBg, function (match, color, image, align, comment) {
+            x = fileContent.replace(regEx, function (match, color, image, align, end, comment) {
                 matches.push({
                     match: match,
                     color: color,
                     image: image,
                     align: align,
+                    end: end,
                     comment: comment
                 });
         });
@@ -102,7 +102,8 @@ exports.init = function(grunt) {
         var imgs = target.images,
             origContent = target.fileContent;
 
-        var newContent = origContent.replace(reBg, function (match, color, image, align, comment) {
+        var newContent = origContent.replace(regEx, function (match, color, image, align, end, comment) {
+
             if (imgs[image]){
                 var i = imgs[image],
                     fit = i.fit;
@@ -130,7 +131,7 @@ exports.init = function(grunt) {
                     background += ' no-repeat';
                 }
 
-                background += ';';
+                background += end;
 
                 return background;
             }else{
@@ -372,6 +373,7 @@ exports.init = function(grunt) {
     var exports = {
         processFile: processFile,
         defaultOptions: {
+            regEx: /background:\s*(\w*|#[0-9a-fA-F]{3,6}|rgb\(\d+,\s*\d+,\s*\d+\)|rgba\(\d+,\s*\d+,\s*\d+,\s*\d*\.?\d*\))?\s*url\([\'"]?([^\'\"\)]+)["\']?\)\s*((?:no-repeat|repeat|repeat-x|repeat-y|center|top|bottom|left|right|scroll|fixed|-?[0-9]+%|0|-?[0-9]+px|\s+){0,9})(;|\})(\s*\/\*[^*]+\*\/)?/ig,
             spaceVertical: 0,
             spaceHorizontal: 0
         }

@@ -3,6 +3,8 @@
     "globals": {
         "require": true,
         "module": true,
-        "exports": true
+        "exports": true,
+        "describe": true,
+        "it": true
     }
 }

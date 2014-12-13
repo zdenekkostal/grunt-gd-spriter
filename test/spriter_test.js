@@ -67,4 +67,22 @@ describe('Spriter', function() {
             });
         });
     });
+
+    it('should sprite when custom regEx is specified', function(done) {
+        _sprite('customRegex', function () {
+            var actual = grunt.file.read('tmp/styles/regex-sprited.css');
+            var expected = grunt.file.read('test/expected/regex-sprited.css');
+            expect(actual).to.eql(expected);
+            done();
+        });
+    });
+
+    it('should be able to sprite minified file', function(done) {
+        _sprite('minified', function () {
+            var actual = grunt.file.read('tmp/styles/minified-sprited.css');
+            var expected = grunt.file.read('test/expected/minified-sprited.css');
+            expect(actual).to.eql(expected);
+            done();
+        });
+    });
 });
