@@ -110,6 +110,19 @@ module.exports = {
             src: 'tmp/fixtures/minified.css',
             dest: 'tmp/styles/minified-sprited.css',
             spriteDest: 'tmp/sprites'
+        },
+
+        spriteSize: {
+            options: {
+                packers: {
+                    regular: {
+                        spriteWidth: 20,
+                        spriteHeight: 20
+                    }
+                }
+            },
+            src: 'tmp/fixtures/spriteSize.css',
+            dest: 'tmp/styles/spriteSize-sprited.css'
         }
     },
 

@@ -14,27 +14,7 @@ var gd     = require('node-gd');
 
 exports.init = function(grunt) {
 
-    var _log;
-
-    var packers = {
-        'regular': {
-            'spriteWidth': 450,
-            'spriteHeight': 4000,
-            'spriter': require('binpacking').Packer
-        },
-        'x': {
-            'spriteWidth': 10,
-            'spriteHeight': 5000,
-            'spriter': require('./xPacker.js').Packer
-        },
-        'y': {
-            'spriteWidth': 5000,
-            'spriteHeight': 500,
-            'spriter': require('./yPacker.js').Packer
-        }
-    };
-
-    var target, regEx;
+    var _log, target, regEx;
 
     var processFile = function (file, opts, done) {
         var fileContent;
@@ -88,8 +68,9 @@ exports.init = function(grunt) {
             grunt.util.async.forEach(matches, markImage, function (err) {
                 grunt.util.async.forEach(Object.keys(target.bgGroups), makeSprite, function (err) {
                     if (err) {
-                        grunt.fail.warn(err.msg);
+                        grunt.log.warn(err.msg);
                         done(false);
+                        return;
                     }
                     saveSprite();
                     done();
@@ -180,7 +161,7 @@ exports.init = function(grunt) {
         });
 
         // create packer
-        var packer = packers[groupName],
+        var packer = opts.packers[groupName],
             Clazz = packer.spriter;
 
         var sprtr = new Clazz(packer.spriteWidth, packer.spriteHeight);
@@ -377,6 +358,23 @@ exports.init = function(grunt) {
     var exports = {
         processFile: processFile,
         defaultOptions: {
+            packers: {
+                regular: {
+                    spriteWidth: 450,
+                    spriteHeight: 4000,
+                    spriter: require('binpacking').Packer
+                },
+                x: {
+                    spriteWidth: 10,
+                    spriteHeight: 5000,
+                    spriter: require('./xPacker.js').Packer
+                },
+                y: {
+                    spriteWidth: 5000,
+                    spriteHeight: 500,
+                    spriter: require('./yPacker.js').Packer
+                }
+            },
             regEx: /background:\s*(\w*|#[0-9a-fA-F]{3,6}|rgb\(\d+,\s*\d+,\s*\d+\)|rgba\(\d+,\s*\d+,\s*\d+,\s*\d*\.?\d*\))?\s*url\([\'"]?([^\'\"\)]+)["\']?\)\s*((?:no-repeat|repeat|repeat-x|repeat-y|center|top|bottom|left|right|scroll|fixed|-?[0-9]+%|0|-?[0-9]+px|\s+){0,9})(;|\})(\s*\/\*[^*]+\*\/)?/ig,
             spaceVertical: 0,
             spaceHorizontal: 0

@@ -41,13 +41,13 @@ grunt.initConfig({
 Type: `Number`
 Default value: `0`
 
-Space between images in sprite (in `px`)
+Space between images in sprite (in `px`).
 
 #### options.spaceHorizontal
 Type: `Number`
 Default value: `0`
 
-Space between images in sprite (in `px`)
+Space between images in sprite (in `px`).
 
 #### options.skip
 Type: `Array`
@@ -61,12 +61,48 @@ Default value: ``
 
 Version string which will be added to the sprite file name.
 
+#### options.packers
+Type: `Object`
+Default value: see bellow
+
+Here you can change maximum size of each sprite (in `px`).
+
+_Regular_ sprite contains images that does not repeat.
+_X_ sprite contains images that are repeated on x axis.
+_Y_ sprite contains images that are repeated on y axis.
+
+Default values:
+```js
+packers: {
+    regular: {
+        spriteWidth: 450,
+        spriteHeight: 4000
+    },
+    x: {
+        spriteWidth: 10,
+        spriteHeight: 5000
+    },
+    y: {
+        spriteWidth: 5000,
+        spriteHeight: 500
+    }
+}
+```
+
 ### Usage Examples
 
 ```js
 grunt.initConfig({
   spriter: {
-    options: {},
+    options: {
+        packers: {
+            // limit regular sprite size
+            regular: {
+                spriteWidth: 350,
+                spriteHeight: 2000
+            }
+        }
+    },
     all: {
         src: 'styles/styles.css',
         dest: 'styles/styles-sprited.css',
@@ -82,6 +118,7 @@ grunt.initConfig({
 grunt.initConfig({
   spriter: {
     options: {
+        // set custom spaces between images in sprite
         spaceVertical: 2,
         spaceHorizontal: 2,
         version: '43a2e0'

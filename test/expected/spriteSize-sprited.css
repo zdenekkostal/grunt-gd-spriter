@@ -1,0 +1,9 @@
+.top-left{
+    background: url("../sprites/spriteSize-sprited_regular.png") -20px 0 no-repeat;
+}
+.top-left2{
+    background: url("../sprites/spriteSize-sprited_regular.png") -30px 0 no-repeat;
+}
+.top-left3{
+    background: url("../sprites/spriteSize-sprited_regular.png") 0 0 no-repeat;
+}

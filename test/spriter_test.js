@@ -85,4 +85,11 @@ describe('Spriter', function() {
             done();
         });
     });
+
+    it('should be able to set sprite max size', function(done) {
+        _sprite('spriteSize', function (returnValue) {
+            expect(returnValue).to.be(false);
+            done();
+        });
+    });
 });
