@@ -50,9 +50,9 @@ exports.init = function(grunt) {
         }
 
         var matches = [],
-            x = fileContent.replace(regEx, function (match, color, image, align, end, comment) {
+            x = fileContent.replace(regEx, function (all, color, image, align, end, comment) {
                 matches.push({
-                    match: match,
+                    all: all,
                     color: color,
                     image: image,
                     align: align,
@@ -102,16 +102,20 @@ exports.init = function(grunt) {
         var imgs = target.images,
             origContent = target.fileContent;
 
-        var newContent = origContent.replace(regEx, function (match, color, image, align, end, comment) {
+        var newContent = origContent.replace(regEx, function (all, color, image, align, end, comment) {
 
             if (imgs[image]){
                 var i = imgs[image],
                     fit = i.fit;
 
+                var quotation = '';
+                if (all.match(/"/)) quotation = '"';
+                if (all.match(/'/)) quotation = "'";
+
                 var background = 'background:';
 
                 if (color) background += ' ' + color;
-                background += ' url("' + i.sprite + '")';
+                background += ' url('+ quotation + i.sprite + quotation +')';
 
                 if (!fit.x) {
                     background += ' 0';
@@ -135,7 +139,7 @@ exports.init = function(grunt) {
 
                 return background;
             }else{
-                return match;
+                return all;
             }
         });
 

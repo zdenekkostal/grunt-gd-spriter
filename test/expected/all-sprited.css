@@ -1,8 +1,11 @@
 .top-left{
-    background: transparent url("../sprites/all-sprited_regular.png") 0 0 no-repeat;
+    background: transparent url("../sprites/all-sprited_regular.png") -20px 0 no-repeat;
 }
 .top-left2{
-    background: red url("../sprites/all-sprited_regular.png") 0 0 no-repeat;
+    background: red url('../sprites/all-sprited_regular.png') -20px 0 no-repeat;
+}
+.top-left3{
+    background: url(../sprites/all-sprited_regular.png) 0 0 no-repeat;
 }
 
 .repeat-x{
