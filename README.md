@@ -41,26 +41,84 @@ grunt.initConfig({
 Type: `Number`
 Default value: `0`
 
-Space between images in sprite (in `px`)
+Space between images in sprite (in `px`).
 
 #### options.spaceHorizontal
 Type: `Number`
 Default value: `0`
 
-Space between images in sprite (in `px`)
+Space between images in sprite (in `px`).
 
-#### options.noSprite
+#### options.skip
 Type: `Array`
 Default value: `[]`
 
 Array of images that should not be sprited.
+
+#### options.version
+Type: `String`
+Default value: ``
+
+Version string which will be added to the sprite file name.
+
+#### options.packers
+Type: `Object`
+Default value: see bellow
+
+Here you can change maximum size of each sprite (in `px`).
+
+_Regular_ sprite contains images that does not repeat.
+_X_ sprite contains images that are repeated on x axis.
+_Y_ sprite contains images that are repeated on y axis.
+
+Default values:
+```js
+packers: {
+    regular: {
+        spriteWidth: 450,
+        spriteHeight: 4000
+    },
+    x: {
+        spriteWidth: 10,
+        spriteHeight: 5000
+    },
+    y: {
+        spriteWidth: 5000,
+        spriteHeight: 500
+    }
+}
+```
+
+#### options.regEx
+Type: `RegExp`
+Default value: see bellow
+
+```js
+/background:\s*(\w*|#[0-9a-fA-F]{3,6}|rgb\(\d+,\s*\d+,\s*\d+\)|rgba\(\d+,\s*\d+,\s*\d+,\s*\d*\.?\d*\))?\s*url\([\'"]?([^\'\"\)]+)["\']?\)\s*((?:no-repeat|repeat|repeat-x|repeat-y|center|top|bottom|left|right|scroll|fixed|-?[0-9]+%|0|-?[0-9]+px|\s+){0,9})(;|\})(\s*\/\*[^*]+\*\/)?/ig
+```
+
+Custom regular expression matching background in css files MUST consist of these groups:
+
+* color
+* image url
+* align/repeat
+* end of the rule (optional ";")
+* comment
 
 ### Usage Examples
 
 ```js
 grunt.initConfig({
   spriter: {
-    options: {},
+    options: {
+        packers: {
+            // limit regular sprite size
+            regular: {
+                spriteWidth: 350,
+                spriteHeight: 2000
+            }
+        }
+    },
     all: {
         src: 'styles/styles.css',
         dest: 'styles/styles-sprited.css',
@@ -76,8 +134,10 @@ grunt.initConfig({
 grunt.initConfig({
   spriter: {
     options: {
+        // set custom spaces between images in sprite
         spaceVertical: 2,
-        spaceHorizontal: 2
+        spaceHorizontal: 2,
+        version: '43a2e0'
     },
     all: {
         src: 'styles/styles.css',
@@ -102,7 +162,7 @@ grunt.initConfig({
   spriter: {
       options: {
           spriteDest: 'dist/images/sprites',
-          noSprite: [
+          skip: [
               '../images/bigImage.png'
           ]
       },

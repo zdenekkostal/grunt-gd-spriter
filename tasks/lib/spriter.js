@@ -14,34 +14,13 @@ var gd     = require('node-gd');
 
 exports.init = function(grunt) {
 
-    var _log;
-
-    var packers = {
-        'regular': {
-            'spriteWidth': 450,
-            'spriteHeight': 4000,
-            'spriter': require('binpacking').Packer
-        },
-        'x': {
-            'spriteWidth': 10,
-            'spriteHeight': 5000,
-            'spriter': require('./xPacker.js').Packer
-        },
-        'y': {
-            'spriteWidth': 5000,
-            'spriteHeight': 500,
-            'spriter': require('./yPacker.js').Packer
-        }
-    };
-
-    var reBg = /background:\s*(transparent|black|red|white|#[0-9a-fA-F]{3,6})?\s*url\([\'"]?([^\'\"\)]+)["\']?\)\s*((?:no-repeat|repeat|repeat-x|repeat-y|center|top|bottom|left|right|scroll|fixed|-?[0-9]+%|0|-?[0-9]+px|\s+){0,9});(\s*\/\*[^*]+\*\/)?/ig;
-
-    var target;
+    var _log, target, regEx;
 
     var processFile = function (file, opts, done) {
         var fileContent;
+        regEx = opts.regEx;
 
-        if (file.src.length > 1) {
+        if (file.src.map) {
             fileContent = file.src.map(function(filepath) {
                 // Read file source.
                 return grunt.file.read(filepath);
@@ -51,12 +30,13 @@ exports.init = function(grunt) {
         }
 
         var matches = [],
-            x = fileContent.replace(reBg, function (match, color, image, align, comment) {
+            x = fileContent.replace(regEx, function (all, color, image, align, end, comment) {
                 matches.push({
-                    match: match,
+                    all: all,
                     color: color,
                     image: image,
                     align: align,
+                    end: end,
                     comment: comment
                 });
         });
@@ -76,7 +56,7 @@ exports.init = function(grunt) {
             options: options,
             fileContent: fileContent,
             files: file,
-            stylesDir: path.dirname(file.src[0]),
+            stylesDir: path.dirname((file.src.map && file.src[0]) || file.src),
             bgGroups: {
                 'regular': [],
                 'x': [],
@@ -88,8 +68,9 @@ exports.init = function(grunt) {
             grunt.util.async.forEach(matches, markImage, function (err) {
                 grunt.util.async.forEach(Object.keys(target.bgGroups), makeSprite, function (err) {
                     if (err) {
-                        grunt.fail.warn(err.msg);
+                        grunt.log.warn(err.msg);
                         done(false);
+                        return;
                     }
                     saveSprite();
                     done();
@@ -102,15 +83,20 @@ exports.init = function(grunt) {
         var imgs = target.images,
             origContent = target.fileContent;
 
-        var newContent = origContent.replace(reBg, function (match, color, image, align, comment) {
+        var newContent = origContent.replace(regEx, function (all, color, image, align, end, comment) {
+
             if (imgs[image]){
                 var i = imgs[image],
                     fit = i.fit;
 
+                var quotation = '';
+                if (all.match(/"/)) quotation = '"';
+                if (all.match(/'/)) quotation = "'";
+
                 var background = 'background:';
 
                 if (color) background += ' ' + color;
-                background += ' url("' + i.sprite + '")';
+                background += ' url('+ quotation + i.sprite + quotation +')';
 
                 if (!fit.x) {
                     background += ' 0';
@@ -130,11 +116,11 @@ exports.init = function(grunt) {
                     background += ' no-repeat';
                 }
 
-                background += ';';
+                background += end;
 
                 return background;
             }else{
-                return match;
+                return all;
             }
         });
 
@@ -142,6 +128,7 @@ exports.init = function(grunt) {
     };
 
     var makeSprite = function(groupName, cb) {
+
         var images = target.bgGroups[groupName],
             opts = target.options,
             version = opts.version ? '_' + opts.version : '',
@@ -174,7 +161,7 @@ exports.init = function(grunt) {
         });
 
         // create packer
-        var packer = packers[groupName],
+        var packer = opts.packers[groupName],
             Clazz = packer.spriter;
 
         var sprtr = new Clazz(packer.spriteWidth, packer.spriteHeight);
@@ -281,8 +268,7 @@ exports.init = function(grunt) {
     };
 
     var markImage = function (item, cb) {
-
-        var isIgnored = grunt.util._.contains(target.options.noSprite, item.image);
+        var isIgnored = grunt.util._.contains(target.options.noSprite || target.options.skip, item.image);
         if ( isIgnored ) {
             item.skip = true;
         }
@@ -316,7 +302,7 @@ exports.init = function(grunt) {
         }
 
         // skip inline images
-        if (item.image.match('data:image') && !item.skip) {
+        if (item.image.match('data:image')) {
             item.skip = true;
         }
 
@@ -370,7 +356,29 @@ exports.init = function(grunt) {
     };
 
     var exports = {
-        processFile: processFile
+        processFile: processFile,
+        defaultOptions: {
+            packers: {
+                regular: {
+                    spriteWidth: 450,
+                    spriteHeight: 4000,
+                    spriter: require('binpacking').Packer
+                },
+                x: {
+                    spriteWidth: 10,
+                    spriteHeight: 5000,
+                    spriter: require('./xPacker.js').Packer
+                },
+                y: {
+                    spriteWidth: 5000,
+                    spriteHeight: 500,
+                    spriter: require('./yPacker.js').Packer
+                }
+            },
+            regEx: /background:\s*(\w*|#[0-9a-fA-F]{3,6}|rgb\(\d+,\s*\d+,\s*\d+\)|rgba\(\d+,\s*\d+,\s*\d+,\s*\d*\.?\d*\))?\s*url\([\'"]?([^\'\"\)]+)["\']?\)\s*((?:no-repeat|repeat|repeat-x|repeat-y|center|top|bottom|left|right|scroll|fixed|-?[0-9]+%|0|-?[0-9]+px|\s+){0,9})(;|\})(\s*\/\*[^*]+\*\/)?/ig,
+            spaceVertical: 0,
+            spaceHorizontal: 0
+        }
     };
 
     return exports;
